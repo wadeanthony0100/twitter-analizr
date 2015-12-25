@@ -7,6 +7,7 @@ Requirements:
 - Python >= v3.2
 - A registered Twitter app
 
+To run:
 1. `pip install -r requirements.txt`
 2. open `twitter.py`, and change the constants at the top of the file to your keys
 2. `python twitter.py`
