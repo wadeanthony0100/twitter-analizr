@@ -110,21 +110,10 @@
 <script src="../semantic/dist/components/transition.js"></script>
 <script>
 
-$(document)
-  .ready(function() {
-
-
-      $('.search-text').transition('fade down');
-      var self = this;
-      $('.fade-down').hover( function() {
-      self.transition("bounce");
-      })
-  });
-
 function onSearch(){
   var searchTerm = document.getElementById('search-bar').value;
-  console.log('searching for ', searchTerm, '...', $('search-text'));
-  $('.search-text').transition('fade down');
+  console.log('searching for ', searchTerm, '...', $('#search-text'));
+  $('#search-text').transition('fade down');
 }
 
 </script>
