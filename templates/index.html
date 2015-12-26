@@ -10,26 +10,29 @@
   <!-- Site Properties -->
   <title>Twitter-Analyzr</title>
   
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/semantic.min.css')}}">
 
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/reset.css">
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/site.css">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/reset.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/site.css')}}">
 
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/container.css">
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/grid.css">
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/header.css">
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/image.css">
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/menu.css">
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/input.css">
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/transition.css">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/container.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/grid.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/header.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/image.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/menu.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/input.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/transition.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/popup.css')}}">
+  
 
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/divider.css">
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/list.css">
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/segment.css">
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/dropdown.css">
-  <link rel="stylesheet" type="text/css" href="../semantic/dist/components/icon.css">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/divider.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/list.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/segment.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/dropdown.css')}}">
+  <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='semantic/dist/components/icon.css')}}">
 
   <style type="text/css">
+  html, body {margin: 0; height: 100%; overflow: hidden}
   body {
     background-color: #FFFFFF;
   }
@@ -67,12 +70,71 @@
     height:35px!important;
     font-size:35px!important;
   }
-  
-  </style>
+  #world-map-layer {
+    margin-top:61px;
+    max-height: 90vh;
+    max-width: 70%;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  #map-img {
+    position:absolute;
+    z-index:-300;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: block;
+  }
+  #mouse-block {
+    position:absolute;
+    z-index:300;
+    height: 90%;
+    width: 100%;
+  }
+  #pin-US {
+    position:absolute;
+    margin-left:13vw;
+    margin-top:39vh;
+  }
+  #pin-CA {
+    position:absolute;
+    margin-left:11vw;
+    margin-top:30vh;
+  }
+  #pin-SA {
+    position:absolute;
+    margin-left:20vw;
+    margin-top:60vh;
+  }
+  #pin-EU {
+    position:absolute;
+    margin-left:34vw;
+    margin-top:33vh;
+  }
+  #pin-CH {
+    position:absolute;
+    margin-left:50vw;
+    margin-top:39vh;
+  }
+  #pin-RU {
+    position:absolute;
+    margin-left:50vw;
+    margin-top:20vh;
+  }
+  #pin-AF {
+    position:absolute;
+    margin-left:34vw;
+    margin-top:47vh;
+  }
+  #pin-AU {
+    position:absolute;
+    margin-left:56vw;
+    margin-top:67vh;
+  }
+    </style>
 
 
-</head>
-<body>
+  </head>
+  <body>
 
   <div class="ui fixed inverted menu">
     <div class="ui container">
@@ -86,7 +148,7 @@
     </div>
   </div>
 
-  <div id="search-text">
+  <div id="search-text" class="transition visible" style="display: block !important;">
     <div class="ui main text container">
       <h1 class="ui header title main-label">
         What is Twitter saying about 
@@ -102,18 +164,96 @@
       </h1>
     </div>
   </div>
+  
+  <div id="world-map-layer" class="transition hidden">
+    <div id='mouse-block'>
+      <!--All this div does is prevent mouseover events on the map-->
+    </div>
+    <img src="{{url_for('static', filename='world.svg')}}" id='map-img'>
+    <div id='pin-US'>USA</div>
+    <div id='pin-SA'>SOUTHAM</div>
+    <div id='pin-CA'>CANADA</div>
+    <div id='pin-EU'>EUROPE</div>
+    <div id='pin-CH'>CHINA</div>
+    <div id='pin-RU'>RUSSIA</div>
+    <div id='pin-AF'>AFRICA</div>
+    <div id='pin-AU'>AUSTRAILIA</div>
+  </div>  
 </body>
 
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="../semantic/dist/semantic.min.js"></script>
-<script src="../semantic/dist/components/transition.js"></script>
+<script src="{{url_for('static', filename='semantic/dist/semantic.min.js')}}"></script>
+<script src="{{url_for('static', filename='semantic/dist/components/transition.min.js')}}"></script>
+<script src="{{url_for('static', filename='semantic/dist/components/popup.min.js')}}"></script>
 <script>
 
 function onSearch(){
   var searchTerm = document.getElementById('search-bar').value;
-  console.log('searching for ', searchTerm, '...', $('#search-text'));
+  console.log('searching for', searchTerm, '...');
   $('#search-text').transition('fade down');
+  setTimeout(function(){
+    $('#world-map-layer').transition('fade');
+    $('#pin-US').trigger('mouseover');
+  }, 500);
 }
+
+function postTweet(usr, msg, loc){
+  
+  verifyLoc(loc);
+
+  $('#pin-' + loc).popup({
+    title   : '@' + usr,
+    content : msg,
+  });
+
+  $('#pin-' + loc).trigger('mouseover');
+  setTimeout(function(){
+    $('#pin-' + loc).trigger('mouseleave');
+  }, 15000);
+  
+}
+
+function verifyLoc(loc){
+  if (loc!='US' && loc!='SA' && loc!='CA' && loc!='EU' && loc!='CH' && loc!='RU' && loc!='AF' && loc!='AU' ){
+    throw 'Error: Location ' + loc + ' not found';
+  }
+}
+
+/*I'm going to try to AJAX. Stand back...*/
+
+function ajaxGetTweet(callback) {
+  httpRequest = new XMLHttpRequest();
+  httpRequest.onreadystatechange = function () {
+    if (httpRequest.readyState === 4) { // request is done
+      if (httpRequest.status === 200) { // successfully
+        callback(httpRequest.responseText); // we're calling our method
+      }
+    }
+  };
+  httpRequest.open('GET', "/get_tweet");
+  httpRequest.send();
+}
+
+function ajaxSendSearch(callback) {
+  httpRequest = new XMLHttpRequest();
+  httpRequest.onreadystatechange = function () {
+    if (httpRequest.readyState === 4) { // request is done
+      if (httpRequest.status === 200) { // successfully
+        callback(httpRequest.responseText); // we're calling our method
+      }
+    }
+  };
+  httpRequest.open('GET', "/get_tweet");
+  httpRequest.send();
+}
+
+/*When you want to get a tweet...
+ajaxCall(function (result) {
+  console.log(result);
+});
+*/
+
+
 
 </script>
